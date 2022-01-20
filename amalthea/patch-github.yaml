@@ -1,0 +1,55 @@
+apiVersion: amalthea.dev/v1alpha1
+kind: JupyterServer
+metadata:
+  name: test-patch-github
+  namespace: amaltheademo
+spec:
+  auth:
+    token: ""
+    oidc:
+      enabled: true
+      clientId: test
+      clientSecret:
+        value: test
+      issuerUrl: test
+  routing:
+    host: amaltheademo.dev.renku.ch
+    path: /githubdemo
+    ingressAnnotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/ingress.class: nginx
+    tls: 
+      enabled: true
+      secretName: amaltheademo-tls-secret
+  patches:
+    - type: "application/json-patch+json"
+      patch:
+        - op: replace
+          path: "/statefulset/spec/template/spec/containers/1/args"
+          value: 
+            - --provider=github
+            - --session-cookie-minimal
+            - --http-address=:4180
+            - --skip-provider-button
+            - --upstream=http://127.0.0.1:8888
+            - --redirect-url=https://amaltheademo.dev.renku.ch/githubdemo/oauth2/callback
+            - --cookie-path=/githubdemo
+            - --proxy-prefix=/githubdemo/oauth2
+            - --skip-auth-route=^/sessions/githubdemo/api/status$
+            - --email-domain=*
+        - op: replace
+          path: "/statefulset/spec/template/spec/containers/1/env/1"
+          value: 
+            name: OAUTH2_PROXY_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: clientSecret
+                name: github-oauth-secret
+        - op: add
+          path: "/statefulset/spec/template/spec/containers/1/env/-"
+          value: 
+            name: OAUTH2_PROXY_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                key: clientId
+                name: github-oauth-secret
