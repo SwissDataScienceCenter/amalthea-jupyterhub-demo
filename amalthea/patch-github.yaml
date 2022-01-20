@@ -37,6 +37,7 @@ spec:
             - --proxy-prefix=/githubdemo/oauth2
             - --skip-auth-route=^/sessions/githubdemo/api/status$
             - --email-domain=*
+            - --github-user="olevski"
         - op: replace
           path: "/statefulset/spec/template/spec/containers/1/env/1"
           value: 

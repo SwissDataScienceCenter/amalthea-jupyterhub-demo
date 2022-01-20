@@ -1,0 +1,27 @@
+apiVersion: amalthea.dev/v1alpha1
+kind: JupyterServer
+metadata:
+  name: test-gitlab
+  namespace: amaltheademo
+spec:
+  auth:
+    token: ""
+    oidc:
+      enabled: true
+      clientId: 7c4a0de652588ebd65c8e35830362b99a84cb43a5d91517d44deaa619e991dc6
+      clientSecret:
+        secretKeyRef:
+          key: clientSecret
+          name: gitlab-oauth-secret
+      issuerUrl: https://dev.renku.ch/gitlab
+      authorizedEmails:
+        - olevski90@gmail.com
+        - tasko.olevski@sdsc.ethz.ch
+  routing:
+    host: amaltheademo.dev.renku.ch
+    path: /gitlabdemo
+    ingressAnnotations:
+      kubernetes.io/ingress.class: nginx
+    tls: 
+      enabled: true
+      secretName: amaltheademo-tls-secret
