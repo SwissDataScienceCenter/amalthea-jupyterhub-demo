@@ -6,7 +6,7 @@ helm repo update
 ```
 
 ```
-helm upgrade --install amaltheademo-jupyterhub jupyterhub/jupyterhub --namespace amaltheademo --version=1.2.0 --values values.yaml
+helm upgrade --install amaltheademo-jupyterhub jupyterhub/jupyterhub --namespace jhamaltheademo --version=1.2.0 --values values.yaml
 ```
 
 # Useful Links

@@ -4,11 +4,11 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-production
     kubernetes.io/ingress.class: nginx
   hosts:
-    - amaltheademo.dev.renku.ch
+    - jhamaltheademo.dev.renku.ch
   tls:
     - hosts:
-      - amaltheademo.dev.renku.ch
-      secretName: amaltheademo-ch-tls
+      - jhamaltheademo.dev.renku.ch
+      secretName: jhamaltheademo-ch-tls
 
 prePuller:
   hook:
@@ -29,8 +29,8 @@ proxy:
 hub:
   services:
     amalthea:
-      url: https://amaltheademo.dev.renku.ch/services/amalthea/patch
-      oauth_redirect_uri: "https://amaltheademo.dev.renku.ch/services/amalthea/patch/oauth2/callback"
+      url: https://jhamaltheademo.dev.renku.ch/services/amalthea/patch
+      oauth_redirect_uri: "https://jhamaltheademo.dev.renku.ch/services/amalthea/patch/oauth2/callback"
       oauth_client_id: amalthea
   config:
     Authenticator:
@@ -41,6 +41,6 @@ hub:
         - user3
         - user4
     DummyAuthenticator:
-      password: a-shared-secret-password
+      password: "test123456"
     JupyterHub:
       authenticator_class: dummy
