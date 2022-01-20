@@ -1,0 +1,46 @@
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - amaltheademo.dev.renku.ch
+  tls:
+    - hosts:
+      - amaltheademo.dev.renku.ch
+      secretName: amaltheademo-ch-tls
+
+prePuller:
+  hook:
+    enabled: false
+  continuous:
+    enabled: false
+
+scheduling:
+  userScheduler:
+    enabled: false
+  userPlaceholder:
+    enabled: false
+
+proxy:
+  service:
+    type: ClusterIP
+
+hub:
+  services:
+    amalthea:
+      url: https://amaltheademo.dev.renku.ch/services/amalthea/patch
+      oauth_redirect_uri: "https://amaltheademo.dev.renku.ch/services/amalthea/patch/oauth2/callback"
+      oauth_client_id: amalthea
+  config:
+    Authenticator:
+      admin_users:
+        - user1
+        - user2
+      allowed_users:
+        - user3
+        - user4
+    DummyAuthenticator:
+      password: a-shared-secret-password
+    JupyterHub:
+      authenticator_class: dummy

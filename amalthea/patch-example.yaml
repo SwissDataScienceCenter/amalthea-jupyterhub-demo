@@ -1,0 +1,43 @@
+apiVersion: amalthea.dev/v1alpha1
+kind: JupyterServer
+metadata:
+  name: test-patch-example
+  namespace: amaltheademo
+spec:
+  auth:
+    oidc:
+      enabled: true
+      clientId: test
+      clientSecret:
+        value: test
+      issuerUrl: test
+  routing:
+    host: amaltheademo.dev.renku.ch
+    path: /services/amalthea/patch
+  patches:
+    - type: "application/json-patch+json"
+      patch:
+        - op: remove
+          path: /statefulset/spec/template/spec/containers/0/readinessProbe
+        - op: remove
+          path: /statefulset/spec/template/spec/containers/0/startupProbe
+        - op: remove
+          path: /statefulset/spec/template/spec/containers/0/livenessProbe
+        - op: replace
+          path: "/statefulset/spec/template/spec/containers/1/args"
+          value: 
+            - --client-id=amalthea
+            - --login-url=https://amaltheademo.dev.renku.ch/hub/api/oauth2/authorize
+            - --redeem-url=https://amaltheademo.dev.renku.ch/hub/api/oauth2/token
+            - --session-cookie-minimal
+            - --http-address=:4180
+            - --skip-provider-button
+            - --upstream=http://127.0.0.1:8888
+            - --redirect-url=https://amaltheademo.dev.renku.ch/services/amalthea/patch/oauth2/callback
+            - --cookie-path=/services/amalthea/patch
+            - --proxy-prefix=/services/amalthea/patch/oauth2
+            - --skip-auth-route=^/services/amalthea/patch/api/status$
+            - --email-domain=*
+            - --cookie-secret=1ebZsOvnouItYixdnoEgBIaYl97LAwgarm23nm8wDZQ=
+            - --insecure-oidc-allow-unverified-email=true
+            - --cookie-domain=amaltheademo.dev.renku.ch

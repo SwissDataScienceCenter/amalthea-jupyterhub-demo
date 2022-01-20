@@ -1,0 +1,4 @@
+scope:
+  namespaces: ["amaltheademo"]
+
+deployCrd: false
