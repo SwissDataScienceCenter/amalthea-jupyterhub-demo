@@ -1,4 +1,0 @@
-scope:
-  namespaces: ["jhamaltheademo"]
-
-deployCrd: false
