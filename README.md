@@ -1,6 +1,6 @@
 # Demo of Amalthea with Different Identity Providers
 
-## Install Renku
+## Install Amalthea
 ```
 helm repo add renku https://swissdatasciencecenter.github.io/helm-charts/
 helm upgrade --install --namespace amaltheademo amaltheademo renku/amalthea -f values.yaml
